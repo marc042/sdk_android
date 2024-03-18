@@ -1,21 +1,23 @@
 
 FROM debian:bookworm-slim AS build_sdk_android
 
-
 COPY 01_nodoc /etc/dpkg/dpkg.cfg.d/
 
+# cpu-checker : pour kvm-ok
+# iproute2 et net-tools : pour ss et netstat
 RUN apt update && apt upgrade -y          && \
     apt install -y openjdk-17-jdk unzip libpulse0 x11-apps \
-                   cpu-checker
+                   cpu-checker \
+                   tcpdump tshark iproute2 net-tools
 #qemu-ssystem
-#cpu-checker
-
+#RUN apt install -y virt-manager qemu qemu-utils qemu-system-86 qemu-system-gui
 
 RUN mkdir -p /root/Android/Sdk
 
 ENV ANDROID_SDK_ROOT=/root/Android/Sdk
 ENV ANDROID_HOME=$ANDROID_SDK_ROOT
 
+# TODO : transformer le COPY en wget
 #wget https://dl.google.com/android/repository/commandlinetools-mac-6858069_latest.zip -O $ANDROID_SDK_ROOT/clt.zip
 #     https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip
 #unzip -qq $ANDROID_SDK_ROOT/clt.zip -d ${ANDROID_SDK_ROOT}/cmdline-tools
@@ -25,8 +27,6 @@ RUN cd /root/Android && unzip -qq commandlinetools-linux-11076708_latest.zip -d 
 
 RUN mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/tools
 ENV PATH="$PATH:$ANDROID_SDK_ROOT/cmdline-tools/tools/bin"
-
-
 
 #RUN cd /root/Android/cmdline-tools && \
 #    ln -s bin/ Sdk

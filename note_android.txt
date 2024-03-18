@@ -54,6 +54,7 @@ export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/emulator:$(
 
 avdmanager list device
 
+# apres le run.sh
 avdmanager -v create avd -n android-image -k "system-images;android-33;google_apis;x86_64" -d "28"
 avdmanager list avd
 emulator @android-image
