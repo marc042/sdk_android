@@ -30,7 +30,7 @@ Build Docker
 Run Docker
 ==========
 
-See https://github.com/peaceiris/sdk_android
+See https://github.com/marc042/sdk_android
 
 
     cd android
