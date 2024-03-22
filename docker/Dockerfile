@@ -8,7 +8,8 @@ COPY 01_nodoc /etc/dpkg/dpkg.cfg.d/
 RUN apt update && apt upgrade -y          && \
     apt install -y openjdk-17-jdk unzip libpulse0 x11-apps \
                    cpu-checker \
-                   tcpdump tshark iproute2 net-tools
+                   tcpdump tshark iproute2 net-tools \
+                   netcat-openbsd
 #qemu-ssystem
 #RUN apt install -y virt-manager qemu qemu-utils qemu-system-86 qemu-system-gui
 
