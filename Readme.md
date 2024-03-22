@@ -23,7 +23,7 @@ Build Docker
 ============
 
   `
-    cd android
+    cd docker
     ./build.sh
   `
 
@@ -33,7 +33,7 @@ Run Docker
 See https://github.com/marc042/sdk_android
 
 
-    cd android
+    cd docker
     ./run.sh
 
 
@@ -49,3 +49,6 @@ For push new image :
     
     docker push mgn42/sdk_android:tagname
   `
+  exemple :
+    docker tag <SHA1> mgn42/sdk_android:1.1
+    docker push mgn42/sdk_android:1.1
