@@ -6,7 +6,7 @@ COPY 01_nodoc /etc/dpkg/dpkg.cfg.d/
 # cpu-checker : pour kvm-ok
 # iproute2 et net-tools : pour ss et netstat
 RUN apt update && apt upgrade -y          && \
-    apt install -y openjdk-17-jdk unzip libpulse0 x11-apps \
+    apt install -y openjdk-17-jdk unzip libpulse0 x11-apps wget \
                    cpu-checker \
                    tcpdump tshark iproute2 net-tools \
                    netcat-openbsd
@@ -18,19 +18,15 @@ RUN mkdir -p /root/Android/Sdk
 ENV ANDROID_SDK_ROOT=/root/Android/Sdk
 ENV ANDROID_HOME=$ANDROID_SDK_ROOT
 
-# TODO : transformer le COPY en wget
-#wget https://dl.google.com/android/repository/commandlinetools-mac-6858069_latest.zip -O $ANDROID_SDK_ROOT/clt.zip
-#     https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip
-#unzip -qq $ANDROID_SDK_ROOT/clt.zip -d ${ANDROID_SDK_ROOT}/cmdline-tools
-COPY commandlinetools-linux-11076708_latest.zip /root/Android
+ENV ANDROID_COMMAND_LINTE_TOOLS=commandlinetools-linux-11076708_latest.zip
 
-RUN cd /root/Android && unzip -qq commandlinetools-linux-11076708_latest.zip -d ${ANDROID_SDK_ROOT}/cmdline-tools
+# TODO : transformer le COPY en wget
+RUN wget https://dl.google.com/android/repository/${ANDROID_COMMAND_LINTE_TOOLS} -O /root/Android/${ANDROID_COMMAND_LINTE_TOOLS} && \
+     cd /root/Android && unzip -qq ${ANDROID_COMMAND_LINTE_TOOLS} -d ${ANDROID_SDK_ROOT}/cmdline-tools && \
+     rm /root/Android/${ANDROID_COMMAND_LINTE_TOOLS}
 
 RUN mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/tools
 ENV PATH="$PATH:$ANDROID_SDK_ROOT/cmdline-tools/tools/bin"
-
-#RUN cd /root/Android/cmdline-tools && \
-#    ln -s bin/ Sdk
 
 RUN     yes | sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses && \
         sdkmanager --sdk_root=${ANDROID_SDK_ROOT} "platform-tools" "platforms;android-33" && \
