@@ -42,7 +42,7 @@ Docker Registry
 
 The Docker is in https://hub.docker.com/repository/docker/mgn42/sdk_android
 
-For push new image :
+For push new image to docker registry :
 --------------------
   `
     docker tag <SHA1> mgn42/sdk_android:tagname
@@ -52,3 +52,9 @@ For push new image :
   exemple :
     docker tag <SHA1> mgn42/sdk_android:1.1
     docker push mgn42/sdk_android:1.1
+
+For push git to github :
+------------------------
+
+    git push origin
+    git push --tags origin
